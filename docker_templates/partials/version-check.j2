@@ -1,0 +1,10 @@
+RUN set -eux; \
+    echo "Verifying install ..."; \
+    {% if image_type == "jdk" and version|int >= 11 -%}
+    fileEncoding="$(echo 'System.out.println(System.getProperty("file.encoding"))' | jshell -s -)"; [ "$fileEncoding" = 'UTF-8' ]; rm -rf ~/.java; \
+    {% endif -%}
+    {% if image_type == "jdk" -%}
+    echo "javac {% if version|int >= 11 %}--{% else %}-{% endif %}version"; javac {% if version|int >= 11 %}--{% else %}-{% endif %}version; \
+    {% endif -%}
+    echo "java {% if version|int >= 11 %}--{% else %}-{% endif %}version"; java {% if version|int >= 11 %}--{% else %}-{% endif %}version; \
+    echo "Complete."

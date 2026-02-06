@@ -1,0 +1,3 @@
+COPY --chmod=755 entrypoint.sh /__entrypoint.sh
+ENTRYPOINT ["/__entrypoint.sh"]
+CMD ["java","-jar", "/app.jar"]
