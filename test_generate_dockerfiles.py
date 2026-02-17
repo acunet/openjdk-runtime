@@ -218,7 +218,7 @@ class TestJinjaRendering(unittest.TestCase):
         self.assertIn("fake-checksum", rendered_template)
 
     def test_entrypoint_rendering(self):
-        template_name = "entrypoint.sh.j2"
+        template_name = "entrypoint.Dockerfile.j2"
         template = self.env.get_template(template_name)
 
         context = {

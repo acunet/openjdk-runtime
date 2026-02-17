@@ -198,7 +198,7 @@ for os_family, configurations in config["configurations"].items():
                     # available on Windows
 
                     # Generate entrypoint.sh
-                    template_entrypoint_file = "entrypoint.sh.j2"
+                    template_entrypoint_file = "entrypoint.Dockerfile.j2"
                     template_entrypoint = env.get_template(template_entrypoint_file)
 
                     entrypoint = template_entrypoint.render(
