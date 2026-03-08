@@ -142,7 +142,7 @@ fi
 export JRE_CACERTS_PATH
 
 # configure shutdown wrapper for diagnostics if enabled
-source /shutdown/shutdown-env.bash
+source /opt/src/shutdown/shutdown-env.bash
 
 # exec the entry point arguments as a command
 echo "Start command: $*"
