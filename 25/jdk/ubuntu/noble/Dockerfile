@@ -113,7 +113,7 @@ RUN set -eux; \
 
 ## Add Additional function to gather all memory to use##
 COPY --chmod=755 src /opt/src/
-COPY --chmod=755 ca /certificates/
+
 
 RUN set -eux && \
     # Download APM agent
