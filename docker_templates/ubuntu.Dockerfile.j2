@@ -49,6 +49,7 @@ RUN set -eux; \
 {% else -%}
     ldconfig;
 {% endif %}
+{% include 'partials/utility.j2' %}
 {% include 'partials/version-check.j2' %}
 {% include 'partials/entrypoint.j2' %}
 {% include 'partials/jshell.j2' %}

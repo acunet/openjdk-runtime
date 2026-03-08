@@ -106,6 +106,21 @@ RUN set -eux; \
     # https://openjdk.java.net/jeps/341
     java -Xshare:dump;
 
+## Add Additional function to gather all memory to use##
+COPY --chmod=755 src /opt/src/
+
+RUN set -eux && \
+    # Download APM agent
+    latest_version=$(curl -s https://repo1.maven.org/maven2/co/elastic/apm/elastic-apm-agent/maven-metadata.xml \
+        | sed -n 's:.*<latest>\(.*\)</latest>.*:\1:p') && \
+    jar_url="https://repo1.maven.org/maven2/co/elastic/apm/elastic-apm-agent/${latest_version}/elastic-apm-agent-${latest_version}.jar" && \
+    curl -sSL -o /opt/elastic-apm-agent.jar "$jar_url" && \
+    chmod +x /opt/src/setup-env.d/*.bash && \
+    # Cleanup: use rpm -e --nodeps to remove packages without checking dependencies
+    rpm -e --nodeps cabextract xorg-x11-font-utils && \
+    microdnf remove -y tar wget xz libfontenc pkg-config && \
+    rm -rf /tmp/hsperfdata_root && \
+    [ ! -d /var/cache/yum ] || rm -rf /var/cache/yum
 RUN set -eux; \
     echo "Verifying install ..."; \
     fileEncoding="$(echo 'System.out.println(System.getProperty("file.encoding"))' | jshell -s -)"; [ "$fileEncoding" = 'UTF-8' ]; rm -rf ~/.java; \
