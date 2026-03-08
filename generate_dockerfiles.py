@@ -183,8 +183,8 @@ for os_family, configurations in config["configurations"].items():
                 ) as out_file:
                     out_file.write(rendered_dockerfile)
 
-                # Copy config/src and config/ca to the output directory for UBI images
-                if os_name.startswith("ubi"):
+                # Copy config/src and config/ca to the output directory for non-Windows images
+                if os_family != "windows":
                     for folder in ["src", "ca"]:
                         src_path = os.path.join("config", folder)
                         dst_path = os.path.join(output_directory, folder)

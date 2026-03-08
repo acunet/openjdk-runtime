@@ -57,38 +57,38 @@ configurations:
       deprecated: 26
       os: alpine-linux
 
-    # EOL 01 Nov 2026
-    - directory: alpine/3.21
-      architectures: [aarch64, x64]
-      image: alpine:3.21
-      deprecated: 26
-      os: alpine-linux
+#    # EOL 01 Nov 2026
+#    - directory: alpine/3.21
+#      architectures: [aarch64, x64]
+#      image: alpine:3.21
+#      deprecated: 26
+#      os: alpine-linux
+#
+#    # EOL 01 Apr 2026
+#    - directory: alpine/3.20
+#      architectures: [aarch64, x64]
+#      image: alpine:3.20
+#      deprecated: 25
+#      os: alpine-linux
 
-    # EOL 01 Apr 2026
-    - directory: alpine/3.20
-      architectures: [aarch64, x64]
-      image: alpine:3.20
-      deprecated: 25
-      os: alpine-linux
-
-  windows:
-    - directory: windows/windowsservercore-ltsc2022
-      architectures: [x64]
-      image: mcr.microsoft.com/windows/servercore:ltsc2022
-      os: servercore
-
-    - directory: windows/nanoserver-ltsc2022
-      architectures: [x64]
-      image: mcr.microsoft.com/windows/nanoserver:ltsc2022
-      os: nanoserver
-
-    - directory: windows/windowsservercore-ltsc2025
-      architectures: [x64]
-      image: mcr.microsoft.com/windows/servercore:ltsc2025
-      os: servercore
-
-    - directory: windows/nanoserver-ltsc2025
-      architectures: [x64]
-      image: mcr.microsoft.com/windows/nanoserver:ltsc2025
-      os: nanoserver
+#  windows:
+#    - directory: windows/windowsservercore-ltsc2022
+#      architectures: [x64]
+#      image: mcr.microsoft.com/windows/servercore:ltsc2022
+#      os: servercore
+#
+#    - directory: windows/nanoserver-ltsc2022
+#      architectures: [x64]
+#      image: mcr.microsoft.com/windows/nanoserver:ltsc2022
+#      os: nanoserver
+#
+#    - directory: windows/windowsservercore-ltsc2025
+#      architectures: [x64]
+#      image: mcr.microsoft.com/windows/servercore:ltsc2025
+#      os: servercore
+#
+#    - directory: windows/nanoserver-ltsc2025
+#      architectures: [x64]
+#      image: mcr.microsoft.com/windows/nanoserver:ltsc2025
+#      os: nanoserver
 

@@ -30,6 +30,8 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 RUN set -eux; \
     apk add --no-cache \
+        # bash is required to run setup scripts
+        bash \
         # java.lang.UnsatisfiedLinkError: libfontmanager.so: libfreetype.so.6: cannot open shared object file: No such file or directory
         # java.lang.NoClassDefFoundError: Could not initialize class sun.awt.X11FontManager
         # https://github.com/docker-library/openjdk/pull/235#issuecomment-424466077
@@ -50,6 +52,7 @@ RUN set -eux; \
         coreutils \
         # Needed to extract CN and generate aliases for certificates
         openssl \
+        which \
     ; \
     rm -rf /var/cache/apk/*
 
@@ -84,14 +87,30 @@ RUN set -eux; \
     ; \
     rm -f /tmp/openjdk.tar.gz ${JAVA_HOME}/lib/src.zip;
 
+## Add Additional function to gather all memory to use##
+COPY --chmod=755 src /opt/src/
+COPY --chmod=755 ca /certificates/
+
+RUN set -eux && \
+    # Download APM agent
+    latest_version=$(curl -s https://repo1.maven.org/maven2/co/elastic/apm/elastic-apm-agent/maven-metadata.xml \
+        | sed -n 's:.*<latest>\(.*\)</latest>.*:\1:p') && \
+    jar_url="https://repo1.maven.org/maven2/co/elastic/apm/elastic-apm-agent/${latest_version}/elastic-apm-agent-${latest_version}.jar" && \
+    curl -sSL -o /opt/elastic-apm-agent.jar "$jar_url" && \
+    chmod +x /opt/src/setup-env.d/*.bash && \
+    # Cleanup: use rpm -e --nodeps to remove packages without checking dependencies
+    rpm -e --nodeps cabextract xorg-x11-font-utils && \
+    microdnf remove -y tar wget xz libfontenc pkg-config && \
+    rm -rf /tmp/hsperfdata_root && \
+    [ ! -d /var/cache/yum ] || rm -rf /var/cache/yum
+
 RUN set -eux; \
     echo "Verifying install ..."; \
     fileEncoding="$(echo 'System.out.println(System.getProperty("file.encoding"))' | jshell -s -)"; [ "$fileEncoding" = 'UTF-8' ]; rm -rf ~/.java; \
     echo "javac --version"; javac --version; \
     echo "java --version"; java --version; \
     echo "Complete."
+
 COPY --chmod=755 entrypoint.sh /__entrypoint.sh
 ENTRYPOINT ["/__entrypoint.sh"]
 CMD ["java","-jar", "/app.jar"]
-
-CMD ["jshell"]

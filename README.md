@@ -514,6 +514,10 @@ spec:
           value: "70"  # 70% of 2048Mi = ~1433MB heap
 ```
 
+## APM
+
+This runtime bundles the Elastic APM Java agent at `/opt/elastic-apm-agent.jar`, but it is disabled by default. To enable it, set `ENABLE_APM=true` at runtime.
+
 ### Environment Variables
 - `JAVA_OPTS`: JVM options can be passed via this environment variable
 - `TZ`: Timezone (default: UTC)
@@ -921,4 +925,4 @@ For the original documentation of the upstream project, please refer to the [Ado
 
 **Last Updated:** January 2026  
 **Version:** 1.0.0 (Production)  
-**Maintainer:** Acunet Community
+**Maintainer:** Acunet 

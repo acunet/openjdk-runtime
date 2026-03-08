@@ -183,7 +183,7 @@ if [ -z "${JAVA_GC_OPTS}" ]; then
 fi
 
 # APM Agent - made optional, supports cloud secret token
-if [ -f "/home/elastic-apm-agent.jar" ] && [ "${ENABLE_APM:-true}" = "true" ]; then
+if [ -f "/opt/elastic-apm-agent.jar" ] && [ "${ENABLE_APM:-false}" = "true" ]; then
   # Extract workload name from HOSTNAME by removing ReplicaSet hash and pod suffix
   # Example: argo-events-controller-manager-558d6bc899-kfscb -> argo-events-controller-manager
   # Works for Deployments, ReplicaSets, StatefulSets
@@ -204,7 +204,7 @@ if [ -f "/home/elastic-apm-agent.jar" ] && [ "${ENABLE_APM:-true}" = "true" ]; t
     APM_OPTS="${APM_OPTS} -Delastic.apm.secret_token=${APM_SECRET_TOKEN}"
   fi
 
-  export JAVA_APM="-javaagent:/home/elastic-apm-agent.jar ${APM_OPTS}"
+  export JAVA_APM="-javaagent:/opt/elastic-apm-agent.jar ${APM_OPTS}"
 else
   export JAVA_APM=""
 fi

@@ -32,8 +32,9 @@ elif ! type "$1" &>/dev/null; then
 fi
 
 # scan the setup-env.d directory for scripts to source for additional setup
-if [ -d "${SETUP_ENV:=/setup-env.d}" ]; then
-  for SCRIPT in $( ls "${SETUP_ENV}/"[0-9]*.bash | sort ) ; do
+if [ -d "/opt/src/setup-env.d" ]; then
+  for SCRIPT in $( ls "/opt/src/setup-env.d/"[0-9]*.bash | sort ) ; do
+    # shellcheck source=/dev/null
     source ${SCRIPT}
   done
 fi
@@ -89,7 +90,7 @@ if [ -n "$USE_SYSTEM_CA_CERTS" ]; then
     rm -f "$tmp_store"
 
     # Import the additional certificate into JVM truststore
-    for i in /home/ca/*crt; do
+    for i in /certificates/*crt; do
         if [ ! -f "$i" ]; then
             continue
         fi
@@ -126,8 +127,8 @@ if [ -n "$USE_SYSTEM_CA_CERTS" ]; then
         # Copy certificates from /certificates to the system truststore, but only if the directory exists and is not empty.
         # The reason why this is not part of the opt-in is because it leaves open the option to mount certificates at the
         # system location, for whatever reason.
-        if [ -d /home/ca ] && [ "$(ls -A /home/ca 2>/dev/null)" ]; then
-            cp -La /home/ca/* /usr/share/pki/ca-trust-source/anchors/
+        if [ -d /certificates ] && [ "$(ls -A /certificates 2>/dev/null)" ]; then
+            cp -La /certificates/* /usr/share/pki/ca-trust-source/anchors/
         fi
         update-ca-trust
     else
