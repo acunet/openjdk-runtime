@@ -36,6 +36,7 @@ RUN set -eux; \
         # Required for jlink
         binutils \
         tzdata \
+        curl \
         wget \
         # utilities for keeping UBI and OpenJDK CA certificates in sync
         # https://github.com/adoptium/containers/issues/293
