@@ -53,6 +53,7 @@ RUN set -eux; \
         # Needed to extract CN and generate aliases for certificates
         openssl \
         which \
+        curl \
     ; \
     rm -rf /var/cache/apk/*
 
@@ -89,7 +90,7 @@ RUN set -eux; \
 
 ## Add Additional function to gather all memory to use##
 COPY --chmod=755 src /opt/src/
-COPY --chmod=755 ca /certificates/
+
 
 RUN set -eux && \
     # Download APM agent
@@ -98,11 +99,10 @@ RUN set -eux && \
     jar_url="https://repo1.maven.org/maven2/co/elastic/apm/elastic-apm-agent/${latest_version}/elastic-apm-agent-${latest_version}.jar" && \
     curl -sSL -o /opt/elastic-apm-agent.jar "$jar_url" && \
     chmod +x /opt/src/setup-env.d/*.bash && \
-    # Cleanup: use rpm -e --nodeps to remove packages without checking dependencies
-    rpm -e --nodeps cabextract xorg-x11-font-utils && \
-    microdnf remove -y tar wget xz libfontenc pkg-config && \
-    rm -rf /tmp/hsperfdata_root && \
-    [ ! -d /var/cache/yum ] || rm -rf /var/cache/yum
+
+    # Fallback cleanup for unknown Linux family
+    rm -rf /tmp/hsperfdata_root
+
 
 RUN set -eux; \
     echo "Verifying install ..."; \

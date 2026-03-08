@@ -29,7 +29,6 @@ RUN set -eux; \
         tzdata \
         # locales ensures proper character encoding and locale-specific behaviors using en_US.UTF-8
         locales \
-        which \
         hostname \
     ; \
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen; \
@@ -49,6 +48,7 @@ RUN set -eux; \
 {% else -%}
     ldconfig;
 {% endif %}
+{% include 'partials/utility.j2' %}
 {% include 'partials/version-check.j2' %}
 {% include 'partials/entrypoint.j2' %}
 {% include 'partials/jshell.j2' %}

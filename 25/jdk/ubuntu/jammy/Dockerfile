@@ -44,7 +44,6 @@ RUN set -eux; \
         tzdata \
         # locales ensures proper character encoding and locale-specific behaviors using en_US.UTF-8
         locales \
-        which \
         hostname \
     ; \
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen; \
@@ -106,6 +105,21 @@ RUN set -eux; \
     # https://github.com/docker-library/openjdk/issues/212#issuecomment-420979840
     # https://openjdk.java.net/jeps/341
     java -Xshare:dump;
+
+## Add Additional function to gather all memory to use##
+COPY --chmod=755 src /opt/src/
+
+
+RUN set -eux && \
+    # Download APM agent
+    latest_version=$(curl -s https://repo1.maven.org/maven2/co/elastic/apm/elastic-apm-agent/maven-metadata.xml \
+        | sed -n 's:.*<latest>\(.*\)</latest>.*:\1:p') && \
+    jar_url="https://repo1.maven.org/maven2/co/elastic/apm/elastic-apm-agent/${latest_version}/elastic-apm-agent-${latest_version}.jar" && \
+    curl -sSL -o /opt/elastic-apm-agent.jar "$jar_url" && \
+    chmod +x /opt/src/setup-env.d/*.bash && \
+
+    # Fallback cleanup for unknown Linux family
+    rm -rf /tmp/hsperfdata_root
 
 RUN set -eux; \
     echo "Verifying install ..."; \
