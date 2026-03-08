@@ -51,6 +51,7 @@ RUN set -eux; \
         # Needed to extract CN and generate aliases for certificates
         openssl \
         which \
+        curl \
     ; \
     rm -rf /var/cache/apk/*
 
