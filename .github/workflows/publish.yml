@@ -17,7 +17,7 @@ jobs:
 
       - name: Log in to Docker Hub
         # Pinned to a full SHA for supply-chain hardening.
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1 # v3.4.0
+        uses: docker/login-action@d74126fafb7d8baee06dfff4003b911af7cf0662 # v3.4.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
